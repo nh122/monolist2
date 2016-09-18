@@ -19,16 +19,17 @@
           </p>
         </div>
         <div class="action clearfix">
-          <%= link_to "" , ownerships_path(item_code: item['itemCode'] , type: "Want") ,
-                      :class => "btn-want btn btn-danger btn-sm want",
-                      :item_code => "want-#{item['itemCode']}",
-                      :remote => true,
-                      :method => :post %>
-          <%= link_to "" , ownerships_path(item_code: item['itemCode'] , type: "Have") ,
-                      :class => "btn-have btn btn-warning btn-sm have",
-                      :item_code => "have-#{item['itemCode']}",
-                      :remote => true,
-                      :method => :post %>
+          <% @item = Item.find_or_initialize_by(item_code: item['itemCode']) %>
+          <% if current_user.want?(@item) %>
+            <%= render 'unwant', item: @item  %>
+          <% else %>
+            <%= render 'want', item: @item %>
+          <% end %>
+          <% if current_user.have?(@item) %>
+            <%= render 'unhave', item: @item  %>
+          <% else %>
+            <%= render 'have', item: @item  %>
+          <% end %>
         </div>
       </div>
     <% end %>

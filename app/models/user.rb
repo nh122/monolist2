@@ -36,28 +36,42 @@ class User < ActiveRecord::Base
 
   ## TODO 実装
   def have(item)
-    haves.find_or_create_by(item_id: item.id)
+    haves.create(item_id: item.id)
   end
 
   def unhave(item)
-    haves = haves.find_by(item_id: item.id)
-    haves.destroy if haves
+    logger.debug "----unhave--------------------------"
+    unhaves = haves.find_by(item_id: item.id)
+    unhaves.destroy if unhaves
   end
 
   def have?(item)
-    have_users.include?(item)
+    have_items.include?(item)
   end
 
   def want(item)
-    wants.find_or_create_by(item_id: item.id)
+    wants.create(item_id: item.id)
   end
 
   def unwant(item)
-    wants = wants.find_by(item_id: item.id)
-    wants.destroy if wants
+    logger.debug "----unwant--------------------------"
+    unwants = wants.find_by(item_id: item.id)
+    unwants.destroy if unwants
   end
 
   def want?(item)
-    want_users.include?(item)
+    logger.debug "----want?--------------------------"
+    logger.debug "チェック中item_code:--------------------------"
+    if item != nil
+      logger.debug item.item_code
+      logger.debug "有無:--------------------------"
+      logger.debug want_items.include?(item)
+    else
+      logger.debug "アイテムなし"
+    end
+
+      logger.debug "最終確認まえ"
+    want_items.include?(item)
+
   end
 end
