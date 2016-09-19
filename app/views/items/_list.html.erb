@@ -1,5 +1,8 @@
 <div class="container">
   <div class="container-inner inner-default clearfix">
+    <% if controller.controller_name == 'ranking' %>
+     <% @rank_num = 0 %>
+    <% end %>
     <% items.each do |item| %>
       <div class="item-box">
         <div class="image">
@@ -11,6 +14,10 @@
             <% end %>
           </div>
         </div>
+        <% if controller.controller_name == 'ranking' %>
+           <% @rank_num += 1 %>
+           <div class="rank_num"><%= @rank_num %>位</div>
+        <% end %>
         <div class="detail">
           <p class="title">
             <%= item.title %>
